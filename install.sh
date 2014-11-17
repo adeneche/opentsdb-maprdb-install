@@ -1,3 +1,4 @@
+#!/bin/sh
 # opentsdb MapR-DB script
 # this scripts makes the necessary arrangements to run opentsdb on MapR-DB
 #
