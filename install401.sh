@@ -41,8 +41,8 @@ read -p "Press [Enter] key to start backup..."
 # download 'asynchbase-*-mapr.jar' into OPENTSDB_HOME
 echo "downloading asynchbase mapr jar..."
 
-#async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.5.0-mapr-1408/asynchbase-1.5.0-mapr-1408.jar
-async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.4.1-mapr-1407/asynchbase-1.4.1-mapr-1407.jar
+async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.5.0-mapr-1408/asynchbase-1.5.0-mapr-1408.jar
+#async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.4.1-mapr-1407/asynchbase-1.4.1-mapr-1407.jar
 
 async_file=`basename "$async_link"`
 
