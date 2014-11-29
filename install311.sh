@@ -20,23 +20,21 @@ test -d "$OPENTSDB_HOME" || {
   exit 1
 }
 
-read -p "Press [Enter] key to continue..."
 #******************************************
 # copy the necessary jars from HADOOP_HOME/lib/ to OPENTSDB_HOME/lib
-echo "Copy all jars from hadoop lib...
-"
-#TODO create a symlink instead of copying the file
-# Base of MapR installation
+echo "Copy all jars from hadoop lib..."
 
-  for jar in "$HADOOP_HOME"/lib/*.jar; do
-    if [ "`echo $jar | grep slf4j`" != "" ]; then
-      continue
-    fi
+#TODO create a symlink instead of copying the file
+
+for jar in "$HADOOP_HOME"/lib/*.jar; do
+  if [ "`echo $jar | grep slf4j`" != "" ]; then
+    continue
+  fi
 	echo "copying $jar..."
 	cp "$jar" "$OPENTSDB_HOME/lib/"
-  done
+done
 
-read -p "Press [Enter] key to start backup..."
+read -p "Press [Enter] key to continue..."
 #******************************************
 # download 'asynchbase-*-mapr.jar' into OPENTSDB_HOME
 echo "downloading asynchbase mapr jar..."
