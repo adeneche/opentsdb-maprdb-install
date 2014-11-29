@@ -29,9 +29,11 @@ Installation instructions on MapR 3.1.1
 	git clone https://github.com/adeneche/opentsdb-maprdb-install.git
 	cd opentsdb-maprdb-install
 - create the tables
-env COMPRESSION=NONE HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 TSDB_TABLE=/user/mapr/tsdb UID_TABLE=/user/mapr/tsdb-uid TREE_TABLE=/user/mapr/tsdb-tree META_TABLE=/user/mapr/tsdb-meta ./create_table.sh
-		(MapR 4.0.1 you can just run create_table.sh be found in /usr/local/share/opentsdb/tools/
-		but in MapR 3.1.1 there is a bug associated with COMPRESSION, run create_table.sh that comes with these instructions instead)
+ . MapR 3.1.1, there is a bug that prevent us from using a COMPRESSION setting
+	env COMPRESSION=NONE HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 TSDB_TABLE=/user/mapr/tsdb UID_TABLE=/user/mapr/tsdb-uid TREE_TABLE=/user/mapr/tsdb-tree META_TABLE=/user/mapr/tsdb-meta ./create_table.sh
+. MapR 4.0.1
+ 	cd /usr/local/share/opentsdb/tool
+ 	env COMPRESSION=none HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 ./create_table.sh
 - run "sudo ./install.sh" to download and copy all the missing to opentsdb lib folder
 - you can now test the installation:
 	tsdb import test_data --auto-metric
