@@ -10,17 +10,17 @@ OPENTSDB_HOME=/usr/local/share/opentsdb
 #******************************************
 # first check if required folders are available
 test -d "$HADOOP_HOME" || {
-  echo >&2 "'$HADOOP_HOME' doesn't exist, is mapr-client properly installed?"
+  echo >&2 "'$HADOOP_HOME' doesn't exist, is mapr-client installed ?"
   exit 1
 }
 test -d "$OPENTSDB_HOME" || {
-  echo >&2 "'$OPENTSDB_HOME' doesn't exist, is openTSDB properly installed?"
+  echo >&2 "'$OPENTSDB_HOME' doesn't exist, is openTSDB installed?"
   exit 1
 }
 
 #******************************************
 # copy the necessary jars from HADOOP_HOME/lib/ to OPENTSDB_HOME/lib
-#TODO make sure each file exists, otherwise exit the install script
+#TODO create a symlink instead of copying the file
 
 copy_if_exists() {
 	test -f "$1" || {
@@ -29,17 +29,16 @@ copy_if_exists() {
 	}
 
 	echo "copying $1..."
-	cp $1 "$OPENTSDB_HOME/lib/"
+	cp "$HADOOP_HOME/lib/$1" "$OPENTSDB_HOME/lib/"
 }
 
-# copy the following jars from HADOOP_HOME/lib
-copy_if_exists "$HADOOP_HOME/lib/commons-logging-api-1.0.4.jar"
-copy_if_exists "$HADOOP_HOME/lib/hadoop-0.20.2-auth.jar"
-copy_if_exists "$HADOOP_HOME/lib/hadoop-0.20.2-dev-core.jar"
-copy_if_exists "$HADOOP_HOME/lib/protobuf-java-2.4.1.jar"
-copy_if_exists "$HADOOP_HOME/lib/libprotodefs-1.0.3-mapr-3.1.1.jar"
-copy_if_exists "$HADOOP_HOME/lib/maprfs-1.0.3-mapr-3.1.1.jar"
-copy_if_exists "$HADOOP_HOME/lib/json-20080701.jar"
+copy_if_exists "commons-logging-api-1.0.4.jar"
+copy_if_exists "hadoop-0.20.2-auth.jar"
+copy_if_exists "hadoop-0.20.2-dev-core.jar"
+copy_if_exists "protobuf-java-2.4.1.jar"
+copy_if_exists "libprotodefs-1.0.3-mapr-3.1.1.jar"
+copy_if_exists "maprfs-1.0.3-mapr-3.1.1.jar"
+copy_if_exists "json-20080701.jar"
 
 #******************************************
 # download 'asynchbase-1.4.1-mapr.jar' into OPENTSDB_HOME

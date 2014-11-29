@@ -13,26 +13,26 @@ Installation instructions on MapR 3.1.1
 - install opentsdb
 	cd build
 	sudo make install
+	# the following shouldn't be required if you install opentsdb from .rpm/.deb
 	sudo ln -s /usr/local/share/opentsdb/etc/opentsdb /etc/opentsdb
-	(we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb "sudo chown mapr:mapr /var/log/opentsdb")
+	sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
+	# we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb "sudo chown mapr:mapr /var/log/opentsdb"
 - edit /etc/opentsdb/opentsdb.conf
-	tsd.http.staticroot = /usr/local/share/opentsdb/static/
-	tsd.core.plugin_path = /usr/local/share/opentsdb/plugins
+	# tsd.http.staticroot = /usr/local/share/opentsdb/static/
+	# tsd.core.plugin_path = /usr/local/share/opentsdb/plugins
 	tsd.storage.enable_compaction = false
 	tsd.storage.hbase.data_table = /user/mapr/tsdb
 	tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
 	tsd.storage.hbase.zk_quorum = localhost:5181
+- get this installation helpers
+	cd <folder where you want to clone the installation helper>
+	git clone https://github.com/adeneche/opentsdb-maprdb-install.git
+	cd opentsdb-maprdb-install
 - create the tables
-	COMPRESSION=NONE \ 
-	HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 \ 
-	TSDB_TABLE=/user/mapr/tsdb \ 
-	UID_TABLE=/user/mapr/tsdb-uid \ 
-	TREE_TABLE=/user/mapr/tsdb-tree \ 
-	META_TABLE=/user/mapr/tsdb-meta \ 
-	./create_table.sh
+env COMPRESSION=NONE HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 TSDB_TABLE=/user/mapr/tsdb UID_TABLE=/user/mapr/tsdb-uid TREE_TABLE=/user/mapr/tsdb-tree META_TABLE=/user/mapr/tsdb-meta ./create_table.sh
 		(MapR 4.0.1 you can just run create_table.sh be found in /usr/local/share/opentsdb/tools/
 		but in MapR 3.1.1 there is a bug associated with COMPRESSION, run create_table.sh that comes with these instructions instead)
 - run "sudo ./install.sh" to download and copy all the missing to opentsdb lib folder
 - you can now test the installation:
-	tsdb import tmp_import --auto-metric
+	tsdb import test_data --auto-metric
 	tsdb scan --import 1y-ago sum mymetric.stock
