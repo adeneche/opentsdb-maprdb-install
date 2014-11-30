@@ -5,6 +5,7 @@
 # opentsdb must be installed, either using .rpm or "make install" after building it
 
 HADOOP_HOME=/opt/mapr/hadoop/hadoop-0.20.2
+HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21
 OPENTSDB_HOME=/usr/local/share/opentsdb
 
 #******************************************
@@ -15,16 +16,16 @@ test -d "$HADOOP_HOME" || {
   echo >&2 "'$HADOOP_HOME' doesn't exist, is mapr-client installed ?"
   exit 1
 }
+test -d "$HBASE_HOME" || {
+  echo >&2 "'$HBASE_HOME' doesn't exist, is mapr-hbase installed ?"
+  exit 1
+}
 test -d "$OPENTSDB_HOME" || {
   echo >&2 "'$OPENTSDB_HOME' doesn't exist, is openTSDB installed?"
   exit 1
 }
-
-read -p "Press [Enter] key to continue..."
 #******************************************
 # copy the necessary jars from HADOOP_HOME/lib/ to OPENTSDB_HOME/lib
-echo "Copy all jars from hadoop lib...
-"
 #TODO create a symlink instead of copying the file
 # Base of MapR installation
 
@@ -36,9 +37,10 @@ echo "Copy all jars from hadoop lib...
   cp "$jar" "$OPENTSDB_HOME/lib/"
   done
 
-read -p "Press [Enter] key to start backup..."
 #******************************************
 # download 'asynchbase-*-mapr.jar' into OPENTSDB_HOME
+read -p "Press [Enter] to download asynchbase..."
+
 if [[ `cat /opt/mapr/MapRBuildVersion` == 4* ]] ;
 then
   echo "MapR 4.x installed. Downloading asynchbase 1.5.0"
@@ -67,3 +69,8 @@ if ls $OPENTSDB_HOME/lib/asynchbase* &> /dev/null; then
 fi
 
 mv "./$async_file-t" "$OPENTSDB_HOME/lib/$async_file"
+
+#******************************************
+read -p "Press [Enter] to create MapR-DB tables..."
+me=$(whoami)
+env COMPRESSION=NONE HBASE_HOME=$HBASE_HOME TSDB_TABLE=/user/$me/tsdb UID_TABLE=/user/$me/tsdb-uid TREE_TABLE=/user/$me/tsdb-tree META_TABLE=/user/$me/tsdb-meta ./create_table.sh
