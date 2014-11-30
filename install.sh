@@ -69,8 +69,3 @@ if ls $OPENTSDB_HOME/lib/asynchbase* &> /dev/null; then
 fi
 
 mv "./$async_file-t" "$OPENTSDB_HOME/lib/$async_file"
-
-#******************************************
-read -p "Press [Enter] to create MapR-DB tables..."
-me=$(whoami)
-env COMPRESSION=NONE HBASE_HOME=$HBASE_HOME TSDB_TABLE=/user/$me/tsdb UID_TABLE=/user/$me/tsdb-uid TREE_TABLE=/user/$me/tsdb-tree META_TABLE=/user/$me/tsdb-meta ./create_table.sh
