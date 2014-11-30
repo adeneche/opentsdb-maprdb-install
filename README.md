@@ -19,7 +19,7 @@ Installation instructions on MapR 3.1.1/4.0.1
 	sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 ```
 - we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb
-- edit /etc/opentsdb/opentsdb.conf
+- edit /etc/opentsdb/opentsdb.conf, and edit the following properties:
 ```
 	tsd.storage.enable_compaction = false
 	tsd.storage.hbase.data_table = /user/mapr/tsdb
@@ -40,4 +40,4 @@ Installation instructions on MapR 3.1.1/4.0.1
 ```
 	tsdb import test_data --auto-metric
 	tsdb scan --import 1y-ago sum mymetric.stock
-```
+``
