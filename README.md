@@ -40,4 +40,4 @@ Installation instructions on MapR 3.1.1/4.0.1
 ```
 	tsdb import test_data --auto-metric
 	tsdb scan --import 1y-ago sum mymetric.stock
-``
+```
