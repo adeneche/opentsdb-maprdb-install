@@ -15,13 +15,10 @@ Installation instructions on MapR 3.1.1/4.0.1
 ```
 	cd build
 	sudo make install
-```
-	if you install opentsdb from .rpm/.deb you don't need to do the following
-```
 	sudo ln -s /usr/local/share/opentsdb/etc/opentsdb /etc/opentsdb
 	sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 ```
-	we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb
+- we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb
 - edit /etc/opentsdb/opentsdb.conf
 ```
 	tsd.storage.enable_compaction = false
@@ -43,4 +40,4 @@ Installation instructions on MapR 3.1.1/4.0.1
 ```
 	tsdb import test_data --auto-metric
 	tsdb scan --import 1y-ago sum mymetric.stock
-```
+``
