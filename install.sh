@@ -30,7 +30,7 @@ test -d "$OPENTSDB_HOME" || {
 # Base of MapR installation
 
   for jar in "$HADOOP_HOME"/lib/*.jar; do
-    if [ "`echo $jar | grep slf4j`" != "" ]; then
+  if [ "`echo $jar | grep slf4j`" != "" ] || [ "`echo $jar | grep netty`" != "" ]; then
       continue
     fi
   echo "copying $jar..."

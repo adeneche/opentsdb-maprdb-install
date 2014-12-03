@@ -32,6 +32,7 @@ Installation instructions on MapR 3.1.1/4.0.1
 	git clone https://github.com/adeneche/opentsdb-maprdb-install.git
 	cd opentsdb-maprdb-install
 ```
+- you may want to edit install.sh and set __HADOOP_HOME__, __HBASE_HOME__ and __OPENTSDB_HOME__ to the correct folders
 - to download and copy all the missing to opentsdb lib folder, run the following:
 ```
 	run "sudo ./install.sh" 
