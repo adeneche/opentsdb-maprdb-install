@@ -15,6 +15,7 @@ Installation instructions on MapR 3.1.1/4.0.1
 ```
 	cd build
 	sudo make install
+	sudo mkdir /usr/local/share/opentsdb/plugins
 	sudo ln -s /usr/local/share/opentsdb/etc/opentsdb /etc/opentsdb
 	sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 ```
@@ -31,7 +32,10 @@ Installation instructions on MapR 3.1.1/4.0.1
 	git clone https://github.com/adeneche/opentsdb-maprdb-install.git
 	cd opentsdb-maprdb-install
 ```
-- run "sudo ./install.sh" to download and copy all the missing to opentsdb lib folder
+- to download and copy all the missing to opentsdb lib folder, run the following:
+```
+	run "sudo ./install.sh" 
+```
 - create the tables
 ```
 	env COMPRESSION=NONE HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 TSDB_TABLE=/user/mapr/tsdb UID_TABLE=/user/mapr/tsdb-uid TREE_TABLE=/user/mapr/tsdb-tree META_TABLE=/user/mapr/tsdb-meta ./create_table.sh
