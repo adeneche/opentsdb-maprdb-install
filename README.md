@@ -13,7 +13,7 @@ sudo apt-get install openjdk-7-jdk
 ```
 
 ##Step 1
-####Option 1 - Install with a package manager (RPM/DEB)
+####Option 1 - Install with a package manager
 Download the appropriate installation package from https://github.com/OpenTSDB/opentsdb/releases
 ```sh
 debian package
@@ -23,8 +23,8 @@ rpm
 	sudo rpm -i DOWNLOADED_FILE_PATH
 ```
 
-####Option 2 - Build from source and install
-Build opentsdb from source
+####Option 2 - Install from source
+Download the sources and execute the build script
 ```sh
 git clone https://github.com/OpenTSDB/opentsdb.git
 cd opentsdb
