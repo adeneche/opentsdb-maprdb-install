@@ -1,48 +1,77 @@
 OpenTSDB/MapR-DB installation script
 ====================================
 
-The goal of this script is to make it easier to run OpenTSDB on a MapR-DB cluster.
-The only requirements is to have mapr-client (or mapr-core) and mapr-hbase installed and to install OpenTSDB either by downloading the latest .rpm/.deb or by building from source then calling 'make install' from the build folder.
+This project is a post install script for OpenTSDB to set it up to use MapR-DB instead of HBase.
 
-Installation instructions on MapR 3.1.1/4.0.1
+##Step 0
+Make sure you have either mapr-client or mapr-core installed
+
+##Step 1
+###Option 1 - Install with a package manager (RPM/DEB)
+```
+Download the appropriate installation package here: https://github.com/OpenTSDB/opentsdb/releases
+*debian package*
+	sudo dpkg -i DOWNLOADED_FILE_PATH
+*rpm*
+	sudo rpm -i DOWNLOADED_FILE_PATH
+```
+
+###Option 2 - Installation instructions on MapR 3.1.1/4.0.1
 - build opentsdb from source
 ```
-	git clone https://github.com/OpenTSDB/opentsdb.git
-	cd opentsdb
-	./build.sh
+git clone https://github.com/OpenTSDB/opentsdb.git
+cd opentsdb
+./build.sh
 ```
+
 - install opentsdb
 ```
-	cd build
-	sudo make install
-	sudo mkdir /usr/local/share/opentsdb/plugins
-	sudo ln -s /usr/local/share/opentsdb/etc/opentsdb /etc/opentsdb
-	sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
+cd build
+sudo make install
+sudo mkdir /usr/local/share/opentsdb/plugins
+sudo ln -s /usr/local/share/opentsdb/etc/opentsdb /etc/opentsdb
+sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 ```
-- we may want to create /var/log/opentsdb folder and give read/write access to the user who will launch tsdb
-- edit /etc/opentsdb/opentsdb.conf, and edit the following properties:
+
+##Step 2
+*If you performed the install from a package manager (.rpm / .deb) then you can likely skip this step*
+Verify that /var/log/opentsdb is owned by the user that will be running the server (e.g. opentsdb user) and has 0755 permissions
+
+##Step 3
+Open /etc/opentsdb/opentsdb.conf, and edit the following properties
+You can change the path for the tables to anything you desire. Just ensure that the base folder e.g. /user/mapr exists in your MapR Distributed File System. This same path will be used in Step 6.
 ```
-	tsd.storage.enable_compaction = false
-	tsd.storage.hbase.data_table = /user/mapr/tsdb
-	tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
-	tsd.storage.hbase.zk_quorum = localhost:5181
+tsd.storage.enable_compaction = false *Ignore this setting for MapR-DB v4.x or above*
+tsd.storage.hbase.data_table = /user/mapr/tsdb
+tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
+tsd.storage.hbase.meta_table = /user/mapr/tsdb-uid
+tsd.storage.hbase.tree_table = /user/mapr/tsdb-uid
+tsd.storage.hbase.zk_quorum = localhost:5181 *MapR-DB does not utilize this value, but it must be set to something*
 ```
-- get this installation helpers
+##Step 4
 ```
-	git clone https://github.com/adeneche/opentsdb-maprdb-install.git
-	cd opentsdb-maprdb-install
+git clone https://github.com/adeneche/opentsdb-maprdb-install.git
+cd opentsdb-maprdb-install
 ```
-- you may want to edit install.sh and set __HADOOP_HOME__, __HBASE_HOME__ and __OPENTSDB_HOME__ to the correct folders
-- to download and copy all the missing to opentsdb lib folder, run the following:
+
+##Step 5
+- Edit install.sh and set __HADOOP_HOME__ and __OPENTSDB_HOME__ to the correct folders if they do not match your setup
+- Run this install script to download and copy all the necessary JAR files to opentsdb lib folder
 ```
 	run "sudo ./install.sh" 
 ```
-- create the tables
+
+##Step 6
+- Edit the create_tables.sh and set your TABLES_PATH to the same path you used in Step 3
+- Run the create tables script to create the OpenTSDB tables in MapR-DB
 ```
-	env COMPRESSION=NONE HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21 TSDB_TABLE=/user/mapr/tsdb UID_TABLE=/user/mapr/tsdb-uid TREE_TABLE=/user/mapr/tsdb-tree META_TABLE=/user/mapr/tsdb-meta ./create_table.sh
+	run "sudo ./create_tables.sh"
 ```
-- you can now test the installation:
+
+##Step 7
+You can now validate the installation
 ```
 	tsdb import test_data --auto-metric
 	tsdb scan --import 1y-ago sum mymetric.stock
 ```
+

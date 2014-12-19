@@ -5,7 +5,6 @@
 # opentsdb must be installed, either using .rpm or "make install" after building it
 
 HADOOP_HOME=/opt/mapr/hadoop/hadoop-0.20.2
-HBASE_HOME=/opt/mapr/hbase/hbase-0.94.21
 OPENTSDB_HOME=/usr/local/share/opentsdb
 
 #******************************************
@@ -14,10 +13,6 @@ echo "Check if required folders exist..."
 
 test -d "$HADOOP_HOME" || {
   echo >&2 "'$HADOOP_HOME' doesn't exist, is mapr-client installed ?"
-  exit 1
-}
-test -d "$HBASE_HOME" || {
-  echo >&2 "'$HBASE_HOME' doesn't exist, is mapr-hbase installed ?"
   exit 1
 }
 test -d "$OPENTSDB_HOME" || {
