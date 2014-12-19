@@ -40,7 +40,7 @@ Verify that /var/log/opentsdb is owned by the user that will be running the serv
 
 ##Step 3
 Open /etc/opentsdb/opentsdb.conf, and edit the following properties
-You can change the path for the tables to anything you desire. Just ensure that the base folder e.g. /user/mapr exists in your MapR Distributed File System. This same path will be used in __Step 6__.
+You can change the path for the tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
 ```ini
 tsd.storage.enable_compaction = false *Ignore this setting for MapR-DB v4.x or above*
 tsd.storage.hbase.data_table = /user/mapr/tsdb
@@ -50,7 +50,7 @@ tsd.storage.hbase.tree_table = /user/mapr/tsdb-uid
 tsd.storage.hbase.zk_quorum = localhost:5181 *MapR-DB does not utilize this value, but it must be set to something*
 ```
 ##Step 4
-Pull down this post install setup
+Get this post install setup project
 ```sh
 git clone https://github.com/adeneche/opentsdb-maprdb-install.git
 cd opentsdb-maprdb-install
@@ -61,15 +61,15 @@ Edit install.sh and set __HADOOP_HOME__ and __OPENTSDB_HOME__ to the correct fol
 
 Run this install script to download and copy all the necessary JAR files to opentsdb lib folder
 ```sh
-run "sudo ./install.sh" 
+sudo ./install.sh
 ```
 
 ##Step 6
-Edit the create_tables.sh and set your TABLES_PATH to the same path you used in Step 3
+Edit the create_tables.sh and set your TABLES_PATH to the same path you used in __Step 3__
 
 Run the create tables script to create the OpenTSDB tables in MapR-DB
 ```sh
-run "sudo ./create_tables.sh"
+sudo ./create_tables.sh
 ```
 
 ##Step 7
