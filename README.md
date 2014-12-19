@@ -42,19 +42,27 @@ sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 
 ##Step 2
 *If you performed the install with a package manager then you can likely skip this step*
+
 Verify that /var/log/opentsdb is owned by the user that will be running the server (e.g. opentsdb user) and has 0755 permissions
 
 ##Step 3
+You can set the path for the OpenTSDB tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
+
 Open /etc/opentsdb/opentsdb.conf, and edit the following properties
-You can change the path for the tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
 ```ini
-tsd.storage.enable_compaction = false *Do NOT set this to false for MapR-DB v4.x or above*
-tsd.core.auto_create_metrics = true *ONLY set this to true for testing purposes, NEVER in production*
+# ONLY set this to false for MapR-DB lower than v4.x
+tsd.storage.enable_compaction = false 
+
+# ONLY set this to true for testing purposes, NEVER in production
+tsd.core.auto_create_metrics = true 
+
 tsd.storage.hbase.data_table = /user/mapr/tsdb
 tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
 tsd.storage.hbase.meta_table = /user/mapr/tsdb-uid
 tsd.storage.hbase.tree_table = /user/mapr/tsdb-uid
-tsd.storage.hbase.zk_quorum = localhost:5181 *MapR-DB does not utilize this value, but it must be set to something*
+
+# MapR-DB does not utilize this value, but it must be set to something
+tsd.storage.hbase.zk_quorum = localhost:5181 
 ```
 ##Step 4
 Get this post install setup project
