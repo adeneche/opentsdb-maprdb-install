@@ -6,6 +6,12 @@ This project is a post install script for OpenTSDB to set it up to use MapR-DB i
 ##Step 0
 Make sure you have either [mapr-client](http://doc.mapr.com/display/MapR/Installing+MapR+Software) or [mapr-core](http://doc.mapr.com/display/MapR/Installing+MapR+Software) installed
 
+Make sure you have atleast Java 7 and GNUPlot installed for OpenTSDB to function
+```sh
+sudo apt-get install gnuplot
+sudo apt-get install openjdk-7-jdk
+```
+
 ##Step 1
 ####Option 1 - Install with a package manager (RPM/DEB)
 Download the appropriate installation package from https://github.com/OpenTSDB/opentsdb/releases
@@ -42,7 +48,8 @@ Verify that /var/log/opentsdb is owned by the user that will be running the serv
 Open /etc/opentsdb/opentsdb.conf, and edit the following properties
 You can change the path for the tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
 ```ini
-tsd.storage.enable_compaction = false *Ignore this setting for MapR-DB v4.x or above*
+tsd.storage.enable_compaction = false *Do NOT set this to false for MapR-DB v4.x or above*
+tsd.core.auto_create_metrics = true *ONLY set this to true for testing purposes, NEVER in production*
 tsd.storage.hbase.data_table = /user/mapr/tsdb
 tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
 tsd.storage.hbase.meta_table = /user/mapr/tsdb-uid
