@@ -72,7 +72,7 @@ cd opentsdb-maprdb-install
 ```
 
 ##Step 5
-Edit install.sh and set __HADOOP_HOME__ and __OPENTSDB_HOME__ to the correct folders if they do not match your setup
+Edit install.sh and set __HADOOP_HOME__ and __OPENTSDB_HOME__ to the correct folders if they do not match your setup *opentsdb default on debian is /usr/share/opentsdb*
 
 Run this install script to download and copy all the necessary JAR files to opentsdb lib folder
 ```sh
@@ -88,7 +88,7 @@ sudo ./create_tables.sh
 ```
 
 ##Step 7
-You can now validate the installation
+You can now validate the installation. The test data is in a time window starting 2014/08/04-10:16:00 and ending 2014/08/04-10:18:00 *adjust based on your timezone*
 ```sh
 tsdb import test_data --auto-metric
 tsdb scan --import 1y-ago sum mymetric.stock
