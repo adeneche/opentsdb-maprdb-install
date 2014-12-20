@@ -41,7 +41,9 @@ sudo ln -s /usr/local/share/opentsdb/ /usr/share/opentsdb
 ```
 
 ##Step 2
-*If you performed the install with a package manager then you can likely skip this step*
+Specify the user that runs OpenTSDB
+- On debian based systems modify /etc/init.d/opentsdb and modify TSD_USER and TSD_GROUP
+- On rpm based systems modify /etc/sysconfig/opentsdb and add USER=<Your user of choice>
 
 Verify that /var/log/opentsdb is owned by the user that will be running the server (e.g. opentsdb user) and has 0755 permissions
 
