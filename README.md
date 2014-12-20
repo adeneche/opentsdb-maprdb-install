@@ -58,8 +58,8 @@ tsd.core.auto_create_metrics = true
 
 tsd.storage.hbase.data_table = /user/mapr/tsdb
 tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
-tsd.storage.hbase.meta_table = /user/mapr/tsdb-uid
-tsd.storage.hbase.tree_table = /user/mapr/tsdb-uid
+tsd.storage.hbase.meta_table = /user/mapr/tsdb-meta
+tsd.storage.hbase.tree_table = /user/mapr/tsdb-tree
 
 # MapR-DB does not utilize this value, but it must be set to something
 tsd.storage.hbase.zk_quorum = localhost:5181 
@@ -67,7 +67,7 @@ tsd.storage.hbase.zk_quorum = localhost:5181
 ##Step 4
 Get this post install setup project
 ```sh
-git clone https://github.com/adeneche/opentsdb-maprdb-install.git
+git clone https://github.com/mapr-demos/opentsdb-maprdb-install.git
 cd opentsdb-maprdb-install
 ```
 
