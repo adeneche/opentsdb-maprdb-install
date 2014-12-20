@@ -49,12 +49,13 @@ Verify that /var/log/opentsdb is owned by the user that will be running the serv
 You can set the path for the OpenTSDB tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
 
 Open /etc/opentsdb/opentsdb.conf, and edit the following properties
+__NOTE:__ Be cautious to NOT have spaces at the end of your lines because the OpenTSDB properties parser can cause unexpected behavior if you have a space at the end of a value
 ```ini
 # ONLY set this to false for MapR-DB lower than v4.x
-tsd.storage.enable_compaction = false 
+tsd.storage.enable_compaction = false
 
 # ONLY set this to true for testing purposes, NEVER in production
-tsd.core.auto_create_metrics = true 
+tsd.core.auto_create_metrics = true
 
 tsd.storage.hbase.data_table = /user/mapr/tsdb
 tsd.storage.hbase.uid_table = /user/mapr/tsdb-uid
@@ -62,7 +63,7 @@ tsd.storage.hbase.meta_table = /user/mapr/tsdb-meta
 tsd.storage.hbase.tree_table = /user/mapr/tsdb-tree
 
 # MapR-DB does not utilize this value, but it must be set to something
-tsd.storage.hbase.zk_quorum = localhost:5181 
+tsd.storage.hbase.zk_quorum = localhost:5181
 ```
 ##Step 4
 Get this post install setup project
