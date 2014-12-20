@@ -49,7 +49,8 @@ Verify that /var/log/opentsdb is owned by the user that will be running the serv
 You can set the path for the OpenTSDB tables to anything you desire. Just ensure that the base folder (e.g. /user/mapr) exists in your MapR Distributed File System. This same path will be used in __Step 6__.
 
 Open /etc/opentsdb/opentsdb.conf, and edit the following properties
-__NOTE:__ Be cautious to NOT have spaces at the end of your lines because the OpenTSDB properties parser can cause unexpected behavior if you have a space at the end of a value
+
+__NOTE:__ Be cautious to NOT have spaces at the end of your lines because the OpenTSDB properties parser may ignore your value if you have a space at the end of the line 
 ```ini
 # ONLY set this to false for MapR-DB lower than v4.x
 tsd.storage.enable_compaction = false
