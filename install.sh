@@ -5,7 +5,9 @@
 # opentsdb must be installed, either using .rpm or "make install" after building it
 
 HADOOP_HOME=/opt/mapr/hadoop/hadoop-0.20.2
-OPENTSDB_HOME=/usr/local/share/opentsdb
+# On RPM based OSes it's usually in /usr/share/opentsdb
+# On Deb based OSes it's usually in /usr/local/share/opentsdb
+OPENTSDB_HOME=/usr/share/opentsdb
 
 #******************************************
 # first check if required folders are available
@@ -20,17 +22,26 @@ test -d "$OPENTSDB_HOME" || {
   exit 1
 }
 #******************************************
-# copy the necessary jars from HADOOP_HOME/lib/ to OPENTSDB_HOME/lib
-#TODO create a symlink instead of copying the file
+# link the necessary jars from $HADOOP_HOME to OPENTSDB_HOME/lib
 # Base of MapR installation
 
-  for jar in "$HADOOP_HOME"/lib/*.jar; do
+case $(basename $HADOOP_HOME) in
+    hadoop-0*)
+      HADOOP_LIB_DIR="$HADOOP_HOME"/lib
+      ;;
+    hadoop-2*)
+      HADOOP_LIB_DIR="$HADOOP_HOME"/share/hadoop/common
+      ;;
+esac
+
+for jar in $(find $HADOOP_LIB_DIR -name "*.jar"); do
   if [ "`echo $jar | grep slf4j`" != "" ] || [ "`echo $jar | grep netty`" != "" ]; then
-      continue
-    fi
-  echo "copying $jar..."
-  cp "$jar" "$OPENTSDB_HOME/lib/"
-  done
+    continue
+  fi
+  echo "linking $jar..."
+  ln -s "$jar" "$OPENTSDB_HOME/lib/"
+done
+
 
 #******************************************
 # download 'asynchbase-*-mapr.jar' into OPENTSDB_HOME
