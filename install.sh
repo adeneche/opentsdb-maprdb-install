@@ -4,10 +4,24 @@
 #
 # opentsdb must be installed, either using .rpm or "make install" after building it
 
-HADOOP_HOME=/opt/mapr/hadoop/hadoop-0.20.2
-# On RPM based OSes it's usually in /usr/share/opentsdb
-# On Deb based OSes it's usually in /usr/local/share/opentsdb
-OPENTSDB_HOME=/usr/share/opentsdb
+# Go with the first hadoop found in /opt/mapr/hadoop
+HADOOP_HOME=$(find /opt/mapr/hadoop -maxdepth 1 -type d -name "hadoop-*" | head -1)
+
+OPENTSDB_HOME=''
+
+if [[ -d "/usr/share/opentsdb" ]]
+then
+    OPENTSDB_HOME=/usr/share/opentsdb
+elif [[ -d "/usr/local/share/opentsdb" ]]
+then
+    OPENTSDB_HOME=/usr/local/share/opentsdb
+fi
+
+if [[ $OPENTSDB_HOME -eq '' ]]
+then
+    echo "OpenTSDB not found on this host please edit this script and set it."
+    exit 1
+fi
 
 #******************************************
 # first check if required folders are available
@@ -21,6 +35,8 @@ test -d "$OPENTSDB_HOME" || {
   echo >&2 "'$OPENTSDB_HOME' doesn't exist, is openTSDB installed?"
   exit 1
 }
+
+echo "Using Hadoop libraries found in ${HADOOP_HOME}"
 #******************************************
 # link the necessary jars from $HADOOP_HOME to OPENTSDB_HOME/lib
 # Base of MapR installation
