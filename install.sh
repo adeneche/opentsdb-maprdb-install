@@ -66,10 +66,10 @@ read -p "Press [Enter] to download asynchbase..."
 if [[ `cat /opt/mapr/MapRBuildVersion` == 4* ]] ;
 then
   echo "MapR 4.x installed. Downloading asynchbase 1.5.0"
-  async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.5.0-mapr-1408/asynchbase-1.5.0-mapr-1408.jar
+  async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.5.0-mapr-1501/asynchbase-1.5.0-mapr-1501.jar
 else
   echo "MapR 3.x installed. Downloading asynchbase 1.4.1"
-  async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.4.1-mapr-1407/asynchbase-1.4.1-mapr-1407.jar
+  async_link=http://repository.mapr.com/nexus/content/groups/mapr-public/org/hbase/asynchbase/1.4.1-mapr-1501/asynchbase-1.4.1-mapr-1501.jar
 fi
 
 async_file=`basename "$async_link"`
