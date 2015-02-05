@@ -61,7 +61,6 @@ done
 
 #******************************************
 # download 'asynchbase-*-mapr.jar' into OPENTSDB_HOME
-read -p "Press [Enter] to download asynchbase..."
 
 if [[ `cat /opt/mapr/MapRBuildVersion` == 4* ]] ;
 then
