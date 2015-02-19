@@ -99,8 +99,5 @@ You can now validate the installation. The test data is in a time window startin
 tsdb import test_data --auto-metric
 tsdb scan --import 1y-ago sum mymetric.stock
 ```
-You can start a tsd with the command:
-```
-tsdb tsd
-```
-OpenTSDB [Quick Start guide](http://opentsdb.net/docs/build/html/user_guide/quickstart.html) is a good place to start if you are new to OpenTSDB.
+Simply call ```service opentsdb start``` to start the tsd and ```service opentsdb stop``` to gracefully shutdown.
+If you are new to OpenTSDB take a look at the [Quick Start guide](http://opentsdb.net/docs/build/html/user_guide/quickstart.html).
